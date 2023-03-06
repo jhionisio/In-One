@@ -9,7 +9,7 @@ Api para APP de carteira digital para armazenar, criar e renovar os seus documen
 ---
 
 ### Buscar Um
-`GET` /inOne/api/docs/{param}
+`GET` /inOne/api/docs/listOne
 
 | campo | tipo | obrigatório | descrição
 |-------|------|:-------------:|--
