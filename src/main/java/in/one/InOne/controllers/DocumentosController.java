@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import in.one.InOne.models.Documentos;
@@ -29,8 +31,8 @@ public class DocumentosController {
         return docs;
     }
 
-    @GetMapping("/inOne/api/docs/listOne")
-    public Documentos GetOne(int param) {
+    @RequestMapping(value = { "/inOne/api/docs/listOne" })
+    public Documentos GetOne(@RequestParam int param) {
 
         List<Documentos> docs = new ArrayList<Documentos>();
 
