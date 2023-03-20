@@ -1,8 +1,8 @@
-package in.one.InOne.models;
+package in.one.in_one.models;
 
 public class Documentos {
 
-    private long doc_id;
+    private Long doc_id;
     private int doc_num;
     private String doc_digit;
     private String doc_name;
@@ -11,7 +11,7 @@ public class Documentos {
     public Documentos() {
     }
 
-    public Documentos(long doc_id, int doc_num, String doc_digit, String doc_name, String doc_body) {
+    public Documentos(Long doc_id, int doc_num, String doc_digit, String doc_name, String doc_body) {
         this.doc_id = doc_id;
         this.doc_num = doc_num;
         this.doc_digit = doc_digit;
@@ -19,11 +19,11 @@ public class Documentos {
         this.doc_body = doc_body;
     }
 
-    public long getDoc_id() {
+    public Long getDoc_id() {
         return doc_id;
     }
 
-    public void setDoc_id(long doc_id) {
+    public void setDoc_id(Long doc_id) {
         this.doc_id = doc_id;
     }
 

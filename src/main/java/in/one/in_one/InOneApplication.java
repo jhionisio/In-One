@@ -1,4 +1,4 @@
-package in.one.InOne;
+package in.one.in_one;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

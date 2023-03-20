@@ -1,4 +1,4 @@
-package in.one.InOne;
+package in.one.in_one;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
