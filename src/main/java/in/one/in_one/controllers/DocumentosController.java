@@ -6,12 +6,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import in.one.in_one.models.Documentos;
+import in.one.in_one.repository.DocumentosRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,62 +25,67 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api/documentos")
 public class DocumentosController {
 
     Logger log = LoggerFactory.getLogger(DocumentosController.class);
 
     List<Documentos> documentos = new ArrayList<>();
 
-    @GetMapping("/api/documentos")
+    @Autowired // IoD IoC
+    DocumentosRepository repository;
+
+    @GetMapping
     public List<Documentos> index() {
-        return documentos;
+        return repository.findAll();
     }
 
-    @PostMapping("/api/documentos")
+    @PostMapping
     public ResponseEntity<Documentos> create(@RequestBody Documentos documento) {
         log.info("cadastrando documento: " + documento);
-        documento.setDoc_id(documentos.size() + 1l);
-        documentos.add(documento);
+
+        repository.save(documento);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(documento);
     }
 
-    @GetMapping("/api/documentos/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Documentos> show(@PathVariable Long id) {
         log.info("buscando documento com id " + id);
-        var documentoSelecionado = documentos.stream().filter(d -> d.getDoc_id().equals(id)).findFirst();
+        var documentoEncontrada = repository.findById(id);
 
-        if (documentoSelecionado.isEmpty())
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        if (documentoEncontrada.isEmpty())
+            return ResponseEntity.notFound().build();
 
-        return ResponseEntity.ok(documentoSelecionado.get());
+        return ResponseEntity.ok(documentoEncontrada.get());
 
     }
 
-    @DeleteMapping("/api/documentos/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<Documentos> destroy(@PathVariable Long id) {
         log.info("apagando documento com id " + id);
-        var documentoSelecionado = documentos.stream().filter(d -> d.getDoc_id().equals(id)).findFirst();
+        var documentoEncontrada = repository.findById(id);
 
-        if (documentoSelecionado.isEmpty())
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        if (documentoEncontrada.isEmpty())
+            return ResponseEntity.notFound().build();
 
-        documentos.remove(documentoSelecionado.get());
+        repository.delete(documentoEncontrada.get());
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.noContent().build();
 
     }
 
-    @PutMapping("/api/documentos/{id}")
+    @PutMapping("{id}")
     public ResponseEntity<Documentos> update(@PathVariable Long id, @RequestBody Documentos documento) {
-        log.info("alterando documento de id " + id);
-        var documentoSelecionado = documentos.stream().filter(d -> d.getDoc_id().equals(id)).findFirst();
+        log.info("alterando documento com id " + id);
+        var documentoEncontrada = repository.findById(id);
 
-        if (documentoSelecionado.isEmpty())
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        if (documentoEncontrada.isEmpty())
+            return ResponseEntity.notFound().build();
 
-        documentos.remove(documentoSelecionado.get());
         documento.setDoc_id(id);
-        documentos.add(documento);
+
+        repository.save(documento);
 
         return ResponseEntity.ok(documento);
 

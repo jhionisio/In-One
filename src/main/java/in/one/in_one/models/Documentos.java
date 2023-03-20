@@ -1,14 +1,22 @@
 package in.one.in_one.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Documentos {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long doc_id;
     private int doc_num;
     private String doc_digit;
     private String doc_name;
     private String doc_body;
 
-    public Documentos() {
+    protected Documentos() {
     }
 
     public Documentos(Long doc_id, int doc_num, String doc_digit, String doc_name, String doc_body) {
