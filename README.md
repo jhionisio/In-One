@@ -8,7 +8,7 @@ Api para APP de carteira digital para armazenar, criar e renovar os seus documen
     - Selecionar
     - Apagar
     - Atualizar
-    - [Mostrar os detalhes](#detalhar-documentos)
+    - [Mostrar os detalhes](#detalhar-documento)
 - Conta
     - Cadastrar
     - Listar todos
