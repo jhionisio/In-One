@@ -3,10 +3,33 @@ Api para APP de carteira digital para armazenar, criar e renovar os seus documen
 
 ## Endpoints
 - Documentos
+    - [Cadastrar](#cadastrar-documento)
     - Listar todos
     - Selecionar
+    - Apagar
+    - Atualizar
+    - [Mostrar os detalhes](#detalhar-documentos)
+- Conta
+    - Cadastrar
+    - Listar todos
+    - Apagar
+    - Atualizar
+    - Mostrar detalhes
 
 ---
+
+### Cadastrar Documento
+`POST` /inOne/api/docs/documento
+
+| campo | tipo | obrigatório | descrição
+|-------|------|:-------------:|--
+| documento_id | String | sim | é o id de um documento previamente cadastrado 
+| conta_id | String | sim | é o id de uma conta previamente cadastrada
+| data | data | sim | é a data de expedição do documento
+
+### Detalhar Despesa
+`GET` /inOne/api/docs/documento{id}
+
 
 ### Buscar Um
 `GET` /inOne/api/docs/listOne
