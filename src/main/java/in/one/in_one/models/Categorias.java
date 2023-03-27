@@ -13,12 +13,22 @@ public abstract class Categorias {
     private int cat_num;
     private String cat_color;
     private String cat_name;
+    private Documentos[] doc;
 
-    public Categorias(Long cat_id, int cat_num, String cat_color, String cat_name) {
+    public Categorias(Long cat_id, int cat_num, String cat_color, String cat_name, Documentos[] doc) {
         this.cat_id = cat_id;
         this.cat_num = cat_num;
         this.cat_color = cat_color;
         this.cat_name = cat_name;
+        this.doc = doc;
+    }
+
+    public Documentos[] getDoc() {
+        return doc;
+    }
+
+    public void setDoc(Documentos[] doc) {
+        this.doc = doc;
     }
 
     public Long getCat_id() {
