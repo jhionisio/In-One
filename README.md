@@ -22,7 +22,7 @@ Api para APP de carteira digital para armazenar, criar e renovar os seus documen
 `POST` /inOne/api/docs/documento
 
 | campo | tipo | obrigatório | descrição
-|-------|------|:-------------:|--
+|-------|------|:-------------:|------
 | documento_id | String | sim | é o id de um documento previamente cadastrado 
 | conta_id | String | sim | é o id de uma conta previamente cadastrada
 | data | data | sim | é a data de expedição do documento
@@ -35,7 +35,7 @@ Api para APP de carteira digital para armazenar, criar e renovar os seus documen
 `GET` /inOne/api/docs/listOne
 
 | campo | tipo | obrigatório | descrição
-|-------|------|:-------------:|--
+|-------|------|:-------------:|------
 | doc_num | int | não | É o número de registro do documento.
 | doc_name | string | sim | É o nome do documento.
 
