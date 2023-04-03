@@ -4,16 +4,26 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Documentos {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull
     private Long doc_id;
+    @NotNull
     private int doc_num;
+    @NotBlank
+    @Size(min = 11, max = 11)
     private String doc_digit;
+    @NotBlank
+    @Size(max = 225)
     private String doc_name;
+    @NotNull
     private String doc_body;
 
     protected Documentos() {

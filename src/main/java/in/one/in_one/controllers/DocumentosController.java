@@ -4,9 +4,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import in.one.in_one.models.Documentos;
 import in.one.in_one.repository.DocumentosRepository;
+import jakarta.validation.Valid;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import in.one.in_one.exception.RestNotFoundException;
 
 @RestController
 @RequestMapping("/api/documentos")
@@ -41,7 +45,7 @@ public class DocumentosController {
     }
 
     @PostMapping
-    public ResponseEntity<Documentos> create(@RequestBody Documentos documento) {
+    public ResponseEntity<Object> create(@RequestBody @Valid Documentos documento) {
         log.info("cadastrando documento: " + documento);
 
         repository.save(documento);
@@ -52,24 +56,21 @@ public class DocumentosController {
     @GetMapping("{id}")
     public ResponseEntity<Documentos> show(@PathVariable Long id) {
         log.info("buscando documento com id " + id);
-        var documentoEncontrada = repository.findById(id);
 
-        if (documentoEncontrada.isEmpty())
-            return ResponseEntity.notFound().build();
-
-        return ResponseEntity.ok(documentoEncontrada.get());
+        var doc = repository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "Documento não encontrado"));
+        return ResponseEntity.ok(doc);
 
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Documentos> destroy(@PathVariable Long id) {
         log.info("apagando documento com id " + id);
-        var documentoEncontrada = repository.findById(id);
 
-        if (documentoEncontrada.isEmpty())
-            return ResponseEntity.notFound().build();
+        var documento = repository.findById(id)
+                .orElseThrow(() -> new RestNotFoundException("Documento não encontrada"));
 
-        repository.delete(documentoEncontrada.get());
+        repository.delete(documento);
 
         return ResponseEntity.noContent().build();
 
@@ -78,10 +79,9 @@ public class DocumentosController {
     @PutMapping("{id}")
     public ResponseEntity<Documentos> update(@PathVariable Long id, @RequestBody Documentos documento) {
         log.info("alterando documento com id " + id);
-        var documentoEncontrada = repository.findById(id);
 
-        if (documentoEncontrada.isEmpty())
-            return ResponseEntity.notFound().build();
+        repository.findById(id)
+                .orElseThrow(() -> new RestNotFoundException("despesa não encontrada"));
 
         documento.setDoc_id(id);
 
