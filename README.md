@@ -22,7 +22,7 @@ Api para APP de carteira digital para armazenar, criar e renovar os seus documen
 `POST` /inOne/api/docs/documento
 
 | campo | tipo | obrigatório | descrição
-|-------|------|:-------------:|------
+|-------|------|:-------------:|-------
 | documento_id | String | sim | é o id de um documento previamente cadastrado 
 | conta_id | String | sim | é o id de uma conta previamente cadastrada
 | data | data | sim | é a data de expedição do documento
