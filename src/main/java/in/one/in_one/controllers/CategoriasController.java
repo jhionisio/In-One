@@ -36,53 +36,36 @@ public class CategoriasController {
     }
 
     @PostMapping
-    public ResponseEntity<Categorias> create(@RequestBody Categorias categoria) {
-        log.info("cadastrando categoria: " + categoria);
-
+    public ResponseEntity<Categoria> create(@RequestBody @Valid Categoria categoria){
+        log.info("Cadastrando categoria: " + categoria);
         repository.save(categoria);
-
         return ResponseEntity.status(HttpStatus.CREATED).body(categoria);
     }
-
+    
     @GetMapping("{id}")
-    public ResponseEntity<Categorias> show(@PathVariable Long id) {
-        log.info("buscando categoria com id " + id);
-        var categoriaEncontrada = repository.findById(id);
-
-        if (categoriaEncontrada.isEmpty())
-            return ResponseEntity.notFound().build();
-
-        return ResponseEntity.ok(categoriaEncontrada.get());
-
+    public ResponseEntity<Categoria> show(@PathVariable Long id){
+        log.info("Buscando categoria com id " + id);
+        return ResponseEntity.ok(getCategoria(id));
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Categorias> destroy(@PathVariable Long id) {
-        log.info("apagando categoria com id " + id);
-        var categoriaEncontrada = repository.findById(id);
-
-        if (categoriaEncontrada.isEmpty())
-            return ResponseEntity.notFound().build();
-
-        repository.delete(categoriaEncontrada.get());
-
+    public ResponseEntity<Categoria> destroy(@PathVariable Long id){
+        log.info("Apagando categoria com id " + id);
+        repository.delete(getCategoria(id));
         return ResponseEntity.noContent().build();
-
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Categorias> update(@PathVariable Long id, @RequestBody Categorias categoria) {
-        log.info("alterando categoria com id " + id);
-        var categoriaEncontrada = repository.findById(id);
-
-        if (categoriaEncontrada.isEmpty())
-            return ResponseEntity.notFound().build();
-
-        categoria.setCat_id(id);
-
+    public ResponseEntity<Categoria> update(@PathVariable Long id, @RequestBody @Valid Categoria categoria){
+        log.info("Alterando categoria com id " + id);
+        getCategoria(id);
+        categoria.setId(id);
         repository.save(categoria);
-
         return ResponseEntity.ok(categoria);
+    }
 
+    private Categoria getCategoria(Long id) {
+        return repository.findById(id)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoria não existe"));
     }
 }

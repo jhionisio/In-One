@@ -8,7 +8,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+@Data
+@NoArgsConstructor
 @Entity
+@AllArgsConstructor
 public abstract class Categorias {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,53 +24,6 @@ public abstract class Categorias {
     @NotBlank
     @Size(max = 25)
     private String cat_name;
+    @OneToMany
     private Documentos[] doc;
-
-    public Categorias(Long cat_id, int cat_num, String cat_color, String cat_name, Documentos[] doc) {
-        this.cat_id = cat_id;
-        this.cat_num = cat_num;
-        this.cat_color = cat_color;
-        this.cat_name = cat_name;
-        this.doc = doc;
-    }
-
-    public Documentos[] getDoc() {
-        return doc;
-    }
-
-    public void setDoc(Documentos[] doc) {
-        this.doc = doc;
-    }
-
-    public Long getCat_id() {
-        return cat_id;
-    }
-
-    public void setCat_id(Long cat_id) {
-        this.cat_id = cat_id;
-    }
-
-    public int getCat_num() {
-        return cat_num;
-    }
-
-    public void setCat_num(int cat_num) {
-        this.cat_num = cat_num;
-    }
-
-    public String getCat_color() {
-        return cat_color;
-    }
-
-    public void setCat_color(String cat_color) {
-        this.cat_color = cat_color;
-    }
-
-    public String getCat_name() {
-        return cat_name;
-    }
-
-    public void setCat_name(String cat_name) {
-        this.cat_name = cat_name;
-    }
 }

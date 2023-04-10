@@ -45,50 +45,37 @@ public class DocumentosController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> create(@RequestBody @Valid Documentos documento) {
-        log.info("cadastrando documento: " + documento);
-
+    public ResponseEntity<Documentos> create(@RequestBody @Valid Documentos documento){
+        log.info("Cadastrando documento: " + documento);
         repository.save(documento);
-
         return ResponseEntity.status(HttpStatus.CREATED).body(documento);
     }
-
+    
     @GetMapping("{id}")
-    public ResponseEntity<Documentos> show(@PathVariable Long id) {
-        log.info("buscando documento com id " + id);
-
-        var doc = repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "Documento não encontrado"));
-        return ResponseEntity.ok(doc);
-
+    public ResponseEntity<Documentos> show(@PathVariable Long id){
+        log.info("Buscando documento com id " + id);
+        return ResponseEntity.ok(getDocumento(id));
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Documentos> destroy(@PathVariable Long id) {
-        log.info("apagando documento com id " + id);
-
-        var documento = repository.findById(id)
-                .orElseThrow(() -> new RestNotFoundException("Documento não encontrada"));
-
-        repository.delete(documento);
-
+    public ResponseEntity<Documentos> destroy(@PathVariable Long id){
+        log.info("Apagando documento com id " + id);
+        repository.delete(getDocumento(id));
         return ResponseEntity.noContent().build();
-
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Documentos> update(@PathVariable Long id, @RequestBody Documentos documento) {
-        log.info("alterando documento com id " + id);
-
-        repository.findById(id)
-                .orElseThrow(() -> new RestNotFoundException("despesa não encontrada"));
-
-        documento.setDoc_id(id);
-
+    public ResponseEntity<Documentos> update(@PathVariable Long id, @RequestBody @Valid Documentos documento){
+        log.info("Alterando documento com id " + id);
+        getDocumento(id);
+        documento.setId(id);
         repository.save(documento);
-
         return ResponseEntity.ok(documento);
+    }
 
+    private Documentos getDocumento(Long id) {
+        return repository.findById(id)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Documento não existe"));
     }
 
 }
