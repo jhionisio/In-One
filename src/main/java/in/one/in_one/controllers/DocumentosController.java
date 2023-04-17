@@ -40,8 +40,9 @@ public class DocumentosController {
     DocumentosRepository repository;
 
     @GetMapping
-    public List<Documentos> index() {
-        return repository.findAll();
+    public Page<Documentos> index(@RequestParam(required = false) Int docs, @PageableDefault(size = 5) Pageable pageable){
+        if (docs == null) return repository.findAll(pageable);
+        return repository.findByDocsContaining(docs, pageable);
     }
 
     @PostMapping

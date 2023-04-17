@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import in.one.in_one.models.Documentos;
 
 public interface DocumentosRepository extends JpaRepository<Documentos, Long> {
-
+    Page<Documentos> findByDocsContaining(Int docs, Pageable pageable);
 }

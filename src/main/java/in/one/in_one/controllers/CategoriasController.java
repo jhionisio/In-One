@@ -31,8 +31,9 @@ public class CategoriasController {
     CategoriasRepository repository;
 
     @GetMapping
-    public List<Categorias> index() {
-        return repository.findAll();
+    public Page<Categoria> index(@RequestParam(required = false) String name, @PageableDefault(size = 5) Pageable pageable){
+        if (name == null) return repository.findAll(pageable);
+        return repository.findByDocsContaining(name, pageable);
     }
 
     @PostMapping
