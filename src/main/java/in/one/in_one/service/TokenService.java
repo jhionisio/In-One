@@ -47,5 +47,5 @@ public class TokenService {
         return usuarioRepository.findByEmail(email)
                     .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
     }
-
+    
 }
