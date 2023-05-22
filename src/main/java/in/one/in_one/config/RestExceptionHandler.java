@@ -16,14 +16,13 @@ import in.one.in_one.models.RestValidationError;
 public class RestExceptionHandler {
 
     Logger log = LoggerFactory.getLogger(RestExceptionHandler.class);
-
+    
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<List<RestValidationError>> methodArgumentNotValidExceptionHandler(
-            MethodArgumentNotValidException erro) {
-        log.error("erro");
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<List<RestValidationError>> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e){
+        log.error("erro de argumento inválido");
         List<RestValidationError> errors = new ArrayList<>();
-        erro.getFieldErrors().forEach(
-                objeto -> errors.add(new RestValidationError(400, objeto.getField(), objeto.getDefaultMessage())));
+        e.getFieldErrors().forEach(v -> errors.add(new RestValidationError(400, v.getField(), v.getDefaultMessage())));
         return ResponseEntity.badRequest().body(errors);
     }
 

@@ -16,6 +16,7 @@ import br.com.fiap.piggybank.service.TokenService;
 import jakarta.validation.Valid;
 
 @RestController
+@Tag(name = "auth")
 public class UsuarioController {
 
     @Autowired
