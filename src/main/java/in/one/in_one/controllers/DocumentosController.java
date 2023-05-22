@@ -36,6 +36,8 @@ import org.springframework.web.bind.annotation.RestController;
 import in.one.in_one.exception.RestNotFoundException;
 
 @RestController
+@Slf4j
+@SecurityRequirement(name = "bearer-key")
 @RequestMapping("/api/documentos")
 public class DocumentosController {
 
@@ -45,6 +47,9 @@ public class DocumentosController {
 
     @Autowired // IoD IoC
     DocumentosRepository repository;
+
+    @Autowired
+    PagedResourcesAssembler<Object> assembler;
 
     @GetMapping
     public ResponseEntity<CollectionModel<EntityModel<Documentos>>> index(@RequestParam(required = false) Int docs, @PageableDefault(size = 5) Pageable pageable){
@@ -70,6 +75,10 @@ public class DocumentosController {
     }
 
     @PostMapping
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "Doc cadastrado com sucesso"),
+        @ApiResponse(responseCode = "400", description = "erro na validação dos dados da requisição")
+    })
     public ResponseEntity<EntityModel<Documentos>> create(@RequestBody @Valid Documentos documento){
         log.info("Cadastrando documento: " + documento);
         Documentos postObj = repository.save(documento);
@@ -81,6 +90,10 @@ public class DocumentosController {
     }
     
     @GetMapping("{id}")
+    @Operation(
+        summary = "Detalhes do doc",
+        description = "Retorna os dados de um doc com id especificado"
+    )
     public ResponseEntity<EntityModel<Documentos>> show(@PathVariable Long id){
         log.info("Buscando documento com id " + id);
         Documentos documento = getCategoria(id);
