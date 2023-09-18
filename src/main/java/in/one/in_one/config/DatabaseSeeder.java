@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import in.one.in_one.models.Categorias;
 import in.one.in_one.models.Documentos;
@@ -14,6 +15,7 @@ import in.one.in_one.repository.CategoriasRepository;
 import in.one.in_one.repository.DocumentosRepository;
 
 @Configuration
+@Profile("dev")
 public class DatabaseSeeder implements CommandLineRunner {
 
     @Autowired
@@ -34,5 +36,5 @@ public class DatabaseSeeder implements CommandLineRunner {
         ));
         
     }
-    
+
 }
